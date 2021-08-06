@@ -64,7 +64,11 @@ function createSkynsEntry(entryUrl) {
         const seed = core.getInput("registry-seed");
         const dataKey = core.getInput("registry-datakey");
         const { publicKey, privateKey } = genKeyPairFromSeed(seed);
-        await skynetClient.db.setDataLink(privateKey, dataKey, rawSkylink);
+        
+        const revision = entry ? entry.revision + 1n : 0n;
+        const updatedEntry = { dataKey: dataKey, revision, data: rawSkylink };
+        await skynetClient.registry.setEntry(privateKey, updatedEntry)
+
         const entryUrl = await skynetClient.registry.getEntryUrl(publicKey, dataKey);
         const skylinkV2 = await skynetClient.registry.getEntryLink(publicKey, dataKey)
 
