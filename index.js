@@ -38,10 +38,6 @@ function createSkynsEntry(entryUrl) {
   return `skyns://${encodeURIComponent(publickey)}/${datakey}`;
 }
 
-function createSkynetV2Link(link) {
-  return `sia://${link}`;
-}
-
 (async () => {
   try {
     // upload to skynet
@@ -67,7 +63,6 @@ function createSkynetV2Link(link) {
         const skynetClient = new SkynetClient("https://siasky.net");
         const seed = core.getInput("registry-seed");
         const dataKey = core.getInput("registry-datakey");
-        console.log(`DataKey: ${dataKey}`);
         const { publicKey, privateKey } = genKeyPairFromSeed(seed);
         await skynetClient.db.setDataLink(privateKey, dataKey, rawSkylink);
         const entryUrl = await skynetClient.registry.getEntryUrl(publicKey, dataKey);
@@ -75,7 +70,7 @@ function createSkynetV2Link(link) {
 
         console.log(`Registry entry updated: ${entryUrl}`);
         console.log(`Skyns entry: ${createSkynsEntry(entryUrl)}`);
-        console.log(`Skynet V2 link: ${createSkynetV2Link(skylinkV2)}`);
+        console.log(`Skynet V2 link: ${skylinkV2}`);
       } catch (error) {
         outputAxiosErrorMessage(error);
 
