@@ -72,7 +72,7 @@ function createSkynetV2Link(link) {
           publicKey,
           dataKey
         );
-        const revision = entry ? entry.revision + 1 : 0;
+        const revision = entry ? entry.revision + 1n : 0n;
         const updatedEntry = { datakey: dataKey, revision, data: rawSkylink };
 
         await skynetClient.registry.setEntry(privateKey, updatedEntry);
